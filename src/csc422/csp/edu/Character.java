@@ -1,15 +1,13 @@
 package csc422.csp.edu;
 
-import java.util.ArrayList;
-import java.util.Set;
-
-//12/4/2020 
-//CSC 422 
-
+//12/4/2020
+//CSC 422
 //zombie war application
+
 public abstract class Character
 {
     //properties
+    protected String name;
     protected String type;
     private int attackDamage;
     private boolean isAlive;
@@ -18,10 +16,23 @@ public abstract class Character
     //default constructor used for subtypes
     //though this class cannot instantiate
     //should be the only one needed for all
-    public Character(int startingHealth, int damageValue)
+    public Character(int startingHealth, int damageValue, int nameCount)
     {
         currentHealth = startingHealth;
         attackDamage = damageValue;
+        type = this.getClass().getSimpleName();
+
+        String temp = type;
+        temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
+        temp += " ";
+        //append string formatted name
+        temp += String.format("%02d", nameCount);
+        name = temp;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public String getType()
@@ -29,7 +40,6 @@ public abstract class Character
         return type;
     }
 
-    //methods
     public int getCurrentHealth()
     {
         return currentHealth;
@@ -55,7 +65,6 @@ public abstract class Character
         return currentHealth > 0;
     }
 
-
     @Override
     public String toString()
     {
@@ -66,7 +75,11 @@ public abstract class Character
     {
         int damage = this.getDamage();
         int targetHealth = target.getCurrentHealth();
-        target.setCurrentHealth(targetHealth - damage);
+        int newHealth = targetHealth - damage;
+        target.setCurrentHealth(newHealth);
+        if (newHealth < 1)
+        {
+            System.out.println(this.getName() + " killed " + target.getName());
+        }
     }
 }
-

@@ -2,9 +2,9 @@ package csc422.csp.edu;
 
 import java.util.ArrayList;
 
-//12/6/2020
-//CSC 422
-//zombie war application
+// 12/6/2020
+// CSC 422
+// zombie war application
 
 public class Simulation
 {
