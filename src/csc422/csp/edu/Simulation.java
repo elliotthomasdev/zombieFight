@@ -2,12 +2,13 @@ package csc422.csp.edu;
 
 import java.util.ArrayList;
 
-//12/4/2020 
-//CSC 422 
+//12/6/2020
+//CSC 422
 //zombie war application
 
 public class Simulation
 {
+
     private ArrayList<Character> zombies;
     private ArrayList<Character> survivors;
     private String survivalReport = null;
@@ -15,12 +16,50 @@ public class Simulation
     public void runCombatSimulation() throws Exception
     {
         initializeCombatants();
-        
-        System.out.println("We have " + survivors.size() + " survivors trying to make it to safety.");  
-                System.out.println("But there are " + zombies.size() + " zombies waiting for them.");
-        
+
+        //tallies for string output
+        int tanks = 0;
+        int commoninfects = 0;
+        int soldiers = 0;
+        int teachers = 0;
+        int children = 0;
+
+        for (Character zombie : zombies)
+        {
+            String test = zombie.getType();
+            if (test.equals("Tank"))
+            {
+                tanks++;
+            }
+            else if (zombie.getType().equals( "CommonInfect"))
+            {
+                commoninfects++;
+            }
+        }
+
+        for (Character survivor : survivors)
+        {
+            switch (survivor.getType()) {
+                case "Soldier":
+                    soldiers++;
+                    break;
+                case "Teacher":
+                    teachers++;
+                    break;
+                case "Child":
+                    children++;
+                    break;
+            }
+        }
+
+        System.out.println(
+                "We have " + survivors.size() + " survivors trying to make it to safety (" + children + " children, " + teachers + " teachers, " + soldiers + " soldiers)");
+
+        System.out.println(
+                "But there are " + zombies.size() + " zombies waiting for them (" + commoninfects + " common infected, " + tanks + " tanks)");
+
         fightZombiesVersusSurvivors(survivors, zombies);
-        
+
     }
 
     private void initializeCombatants() throws Exception
@@ -33,7 +72,7 @@ public class Simulation
     {
         survivalReport = "";
         boolean team2IsStillAlive = false;
- 
+
         for (Character attacker : team1) //foreach loop, also need logic to check if attacker is alive before they attack
         {
             if (attacker.getIsAlive())
@@ -48,8 +87,7 @@ public class Simulation
                 }
             }
         }
-
-        //test at the end of the attacking side turn - check if all defenders are dead            
+        //test at the end of the attacking side turn - check if all defenders are dead
         for (Character defender : team2)
         {
             if (defender.getIsAlive())
@@ -67,8 +105,8 @@ public class Simulation
         {
             generateSurvivalReport();
         }
-    }
 
+    }
 
     public void generateSurvivalReport()
     {
@@ -90,13 +128,14 @@ public class Simulation
             }
         }
 
-         if (survivorsTotal > zombieTotal)
+        if (survivorsTotal > zombieTotal)
         {
-             System.out.println(survivorsTotal + " survivors have made it to safety.");
+            System.out.println(survivorsTotal + " survivors have made it to safety.");
         }
         else
-         {
-             System.out.println("It seems none have made it.");
-         }
+        {
+            System.out.println("None of the survivors have made it.");
+        }
     }
+
 }
