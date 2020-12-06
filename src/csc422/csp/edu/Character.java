@@ -1,6 +1,6 @@
 package csc422.csp.edu;
 
-//12/4/2020
+//12/6/2020
 //CSC 422
 //zombie war application
 
@@ -13,9 +13,6 @@ public abstract class Character
     private boolean isAlive;
     private int currentHealth;
 
-    //default constructor used for subtypes
-    //though this class cannot instantiate
-    //should be the only one needed for all
     public Character(int startingHealth, int damageValue, int nameCount)
     {
         currentHealth = startingHealth;
