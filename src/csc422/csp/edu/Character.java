@@ -1,4 +1,4 @@
-package zombieapplication;
+package csc422.csp.edu;
 
 //12/6/2020 
 //CSC 422 
