@@ -6,138 +6,55 @@ package csc422.csp.edu;
 
 import java.util.ArrayList;
 
-
-public class Simulation
+public abstract class Survivor extends Character
 {
 
-    private ArrayList<Character> zombies;
-    private ArrayList<Character> survivors;
-    private String survivalReport = null;
-
-    public void runCombatSimulation() throws Exception
+    public Survivor(int startingHealth, int damageValue, int nameCount)
     {
-        initializeCombatants();
-
-        //tallies for string output
-        int tanks = 0;
-        int commoninfects = 0;
-        int soldiers = 0;
-        int teachers = 0;
-        int children = 0;
-
-        for (Character zombie : zombies)
-        {
-            String test = zombie.getType();
-            if (test.equals("Tank"))
-            {
-                tanks++;
-            }
-            else if (zombie.getType().equals( "CommonInfect"))
-            {
-                commoninfects++;
-            }
-        }
-
-        for (Character survivor : survivors)
-        {
-            if (survivor.getType().equals( "Soldier"))
-            {
-                soldiers++;
-            }
-            else if (survivor.getType().equals( "Teacher"))
-            {
-                teachers++;
-            }
-            else if (survivor.getType().equals( "Child"))
-            {
-                children++;
-            }
-        }
-
-        System.out.println(
-                "We have " + survivors.size() + " survivors trying to make it to safety (" + children + " children, " + teachers + " teachers, " + soldiers + " soldiers)");
-
-        System.out.println(
-                "But there are " + zombies.size() + " zombies waiting for them (" + commoninfects + " common infected, " + tanks + " tanks)");
-
-        fightZombiesVersusSurvivors(survivors, zombies);
-
+        super(startingHealth, damageValue, nameCount);
     }
 
-    private void initializeCombatants() throws Exception
+    public static ArrayList<Character> createRandomSurvivors() throws Exception
     {
-        zombies = Zombie.createRandomZombies();
-        survivors = Survivor.createRandomSurvivors();
+        ArrayList<Character> list = new ArrayList<>();
+
+        //tracking for naming purposes
+        int soldierCount = 0;
+        int teacherCount = 0;
+        int childCount = 0;
+
+        //(min + (int) (Math.random() * ((max - min) + 1)))
+        int number = (int) (Math.random() * 15);
+        number += 6;
+
+        while (number >= 0)
+        {
+            //create a random zombie
+            int type = (int) (Math.random() * 5) + 1;
+
+            switch (type)
+            {
+                //in a zombie war, adults should be more common while children are staying off the street 
+                //so I am upping # of soldiers and teachers
+                case 1:
+                case 2:
+                    soldierCount++; //tracking the count for naming
+                    list.add(new Soldier(100, 10, soldierCount));
+                    break;
+                case 3:
+                case 4:
+                    teacherCount++;
+                    list.add(new Teacher(50, 5, teacherCount));
+                    break;
+                case 5:
+                    childCount++;
+                    list.add(new Child(20, 2, childCount));
+                    break;
+                default:
+                    throw new Exception("not implemented");
+            }
+            number--;
+        }
+        return list;
     }
-
-    private void fightZombiesVersusSurvivors(ArrayList<Character> team1, ArrayList<Character> team2)
-    {
-        survivalReport = "";
-        boolean team2IsStillAlive = false;
-
-        for (Character attacker : team1) //foreach loop, also need logic to check if attacker is alive before they attack
-        {
-            if (attacker.getIsAlive())
-            {
-                for (Character defender : team2) //foreach loop
-                {
-                    if (defender.getIsAlive())//true
-                    {
-                        //injure the defender
-                        attacker.inflictDamage(defender); //then the defender calculates if the damage they just took was enough to kill them
-                    }
-                }
-            }
-        }
-        //test at the end of the attacking side turn - check if all defenders are dead            
-        for (Character defender : team2)
-        {
-            if (defender.getIsAlive())
-            {
-                team2IsStillAlive = true;
-                break;
-            }
-        }
-
-        if (team2IsStillAlive)
-        {
-            fightZombiesVersusSurvivors(team2, team1);
-        }
-        else
-        {
-            generateSurvivalReport();
-        }
-
-    }
-
-    public void generateSurvivalReport()
-    {
-        int survivorsTotal = 0;
-        for (Character survivor : survivors)
-        {
-            if (survivor.getIsAlive())
-            {
-                survivorsTotal++;
-            }
-        }
-
-        int zombieTotal = 0;
-        for (Character zombie : zombies)
-        {
-            if (zombie.getIsAlive())
-            {
-                zombieTotal++;
-            }
-        }
-
-        if (survivorsTotal > zombieTotal)
-        {
-            System.out.println(survivorsTotal + " survivors have made it to safety.");
-        }
-        else
-        {
-            System.out.println("None of the survivors have made it.");
-        }
-    }
-
 }
