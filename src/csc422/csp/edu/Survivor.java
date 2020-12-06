@@ -1,5 +1,6 @@
 package csc422.csp.edu;
-//12/4/2020
+
+//12/6/2020
 //CSC 422
 //zombie war application
 
@@ -8,9 +9,9 @@ import java.util.ArrayList;
 public abstract class Survivor extends Character
 {
 
-    public Survivor(int startingHealth, int damageValue)
+    public Survivor(int startingHealth, int damageValue, int nameCount)
     {
-        super(startingHealth, damageValue);
+        super(startingHealth, damageValue, nameCount);
     }
 
     public static ArrayList<Character> createRandomSurvivors() throws Exception
