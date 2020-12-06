@@ -6,9 +6,8 @@ package csc422.csp.edu;
 
 public class Child extends Survivor
 {
-    public Child(int startingHealth, int damageValue)
+    public Child(int startingHealth, int damageValue, int nameCount)
     {
-        super(startingHealth, damageValue);
-        type = "child";
+        super(startingHealth, damageValue, nameCount);
     }
 }
