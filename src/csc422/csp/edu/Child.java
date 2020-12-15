@@ -1,14 +1,13 @@
 package csc422.csp.edu;
 
-//12/4/2020 
-//CSC 422 
+//12/14/2020
+//CSC 422
 //zombie war application
 
 public class Child extends Survivor
 {
-    public Child(int startingHealth, int damageValue)
+    public Child(int startingHealth, int damageValue, int nameCount)
     {
-        super(startingHealth, damageValue);
-        type = "child";
+        super(startingHealth, damageValue, nameCount);
     }
 }
