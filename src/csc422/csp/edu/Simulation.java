@@ -2,15 +2,16 @@ package csc422.csp.edu;
 
 import java.util.ArrayList;
 
-//12/6/2020 
-//CSC 422 
+//12/15/2020
+//CSC 422
 //zombie war application
-
 public class Simulation
 {
 
     private ArrayList<Character> zombies;
     private ArrayList<Character> survivors;
+    private ArrayList<Weapon> weapons;
+
     private String survivalReport = null;
 
     public void runCombatSimulation() throws Exception
@@ -31,7 +32,7 @@ public class Simulation
             {
                 tanks++;
             }
-            else if (zombie.getType().equals( "CommonInfect"))
+            else if (zombie.getType().equals("CommonInfect"))
             {
                 commoninfects++;
             }
@@ -39,17 +40,16 @@ public class Simulation
 
         for (Character survivor : survivors)
         {
-            if (survivor.getType().equals( "Soldier"))
-            {
-                soldiers++;
-            }
-            else if (survivor.getType().equals( "Teacher"))
-            {
-                teachers++;
-            }
-            else if (survivor.getType().equals( "Child"))
-            {
-                children++;
+            switch (survivor.getType()) {
+                case "Soldier":
+                    soldiers++;
+                    break;
+                case "Teacher":
+                    teachers++;
+                    break;
+                case "Child":
+                    children++;
+                    break;
             }
         }
 
@@ -67,6 +67,17 @@ public class Simulation
     {
         zombies = Zombie.createRandomZombies();
         survivors = Survivor.createRandomSurvivors();
+        weapons = Weapon.createWeaponsCache();
+
+        for(int i=0;i<survivors.size();i++)
+        {
+            if(i<weapons.size())
+            {
+                survivors.get(i).setEquippedWeapon(weapons.get(i));
+            }
+
+        }
+
     }
 
     private void fightZombiesVersusSurvivors(ArrayList<Character> team1, ArrayList<Character> team2)
