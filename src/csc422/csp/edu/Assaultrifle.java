@@ -5,6 +5,7 @@ package csc422.csp.edu;
 //zombie war application
 
 public class  AssaultRifle()
+{
     {
         super(60, 90);
     }
